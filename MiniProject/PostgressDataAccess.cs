@@ -145,6 +145,39 @@ namespace MiniProject
                 cnn.Close();
             }
         }
+
+        public static void editTimeReport()
+        {
+
+            Console.WriteLine("Enter your project id");
+            int project_id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter your id number");
+            int person_id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Update your hours:");
+            int hours = Convert.ToInt32(Console.ReadLine());
+
+
+         using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+                cnn.Open();
+
+                var query = "UPDATE tz_project_person SET hours=@hours Where project_id=@project_id AND person_id=@person_id";
+
+                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
+                {
+                    command.Parameters.AddWithValue("@hours", hours);
+                    command.Parameters.AddWithValue("@project_id", project_id);
+                    command.Parameters.AddWithValue("@person_id", person_id);
+
+
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Time report updated!");
+                }
+
+                cnn.Close();
+            }
+        }
     }
 }
 

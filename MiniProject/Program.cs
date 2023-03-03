@@ -9,7 +9,7 @@ class Program
         Console.WriteLine("3. Add time report on the project");
         Console.WriteLine("4. Edit Person");
         Console.WriteLine("5. Edit Project");
-
+        Console.WriteLine("6. Edit time report");
 
         string choice = Console.ReadLine();
 
@@ -34,6 +34,10 @@ class Program
 
             case "5":
                 PostgressDataAccess.editProject();
+                break;
+
+            case "6":
+                PostgressDataAccess.editTimeReport();
                 break;
 
             default:
