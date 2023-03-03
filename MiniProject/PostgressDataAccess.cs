@@ -8,30 +8,34 @@ namespace MiniProject
 {
     public class PostgressDataAccess
     {
+        //Load connection string from configuration.
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
 
         }
 
+        //Create persosn to database   
         public static void CreatePerson()
         {
 
             Console.WriteLine("Enter your Name:");
             string person_name = Console.ReadLine();
 
-
+            //Get a connection to database
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
+                // Open DB connection
                 cnn.Open();
 
+                //SQL statement which will execute 
                 string sql = "INSERT INTO tz_person (person_name)" +
                                         "VALUES (@person_name)";
                 cnn.Execute(sql, new { person_name });
 
                 Console.WriteLine("New person created successfully!");
-
+                //Close DB  connection
                 cnn.Close();
             }
         }
@@ -88,7 +92,7 @@ namespace MiniProject
 
         public static void editPerson()
         {
-
+            //User input
             Console.WriteLine("Enter your id");
             int id = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter your name you want to edit");
@@ -105,6 +109,7 @@ namespace MiniProject
 
                 using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
                 {
+                    // Add parameterss to SQL statement
                     command.Parameters.AddWithValue("@id", id);
                     command.Parameters.AddWithValue("@person_name", person_name);
 

@@ -10,17 +10,20 @@ class Program
         Console.WriteLine("4. Edit Person");
         Console.WriteLine("5. Edit Project");
         Console.WriteLine("6. Edit time report");
-
+        
+        // Choose from menu above
         string choice = Console.ReadLine();
 
 
         switch (choice)
         {
             case "1":
+                // Call CreatePerson method from PostgressDataAccess to create person in person table 
                 PostgressDataAccess.CreatePerson();
                 break;
 
             case "2":
+                // Create project in project table 
                 PostgressDataAccess.CreateProject();
                 break;
 
@@ -41,6 +44,7 @@ class Program
                 break;
 
             default:
+                Console.WriteLine("Choose options in between 1-6");
                 break;
         }
 
