@@ -57,6 +57,94 @@ namespace MiniProject
                 cnn.Close();
             }
         }
+
+
+        public static void TimeReport()
+        {
+
+            Console.WriteLine("Enter your project id:");
+            int project_id = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Enter your id number:");
+            int person_id = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("How many hours did you work on the project:");
+            int hours = Convert.ToInt32(Console.ReadLine());
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+                cnn.Open();
+
+                string sql = "INSERT INTO tz_project_person (project_id,person_id,hours)" +
+                                        "VALUES (@project_id,@person_id,@hours)";
+                cnn.Execute(sql, new { project_id, person_id, hours });
+
+                Console.WriteLine("Time duration has reported successfully!");
+
+                cnn.Close();
+            }
+        }
+
+        public static void editPerson()
+        {
+
+            Console.WriteLine("Enter your id");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter your name you want to edit");
+            string person_name = Console.ReadLine();
+
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+                cnn.Open();
+
+
+                var query = "UPDATE tz_person SET person_name=@person_name Where id=@id";
+
+                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@person_name", person_name);
+
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Person name updated!");
+                }
+
+                cnn.Close();
+            }
+        }
+
+        public static void editProject()
+        {
+
+            Console.WriteLine("Enter your id");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter your project name you want to edit");
+            string project_name = Console.ReadLine();
+
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+                cnn.Open();
+
+
+                var query = "UPDATE tz_project SET project_name=@project_name Where id=@id";
+
+                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@project_name", project_name);
+
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Project name updated!");
+                }
+
+                cnn.Close();
+            }
+        }
     }
 }
 
