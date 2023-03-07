@@ -3,6 +3,7 @@ using System.Configuration;
 using Dapper;
 using Npgsql;
 using System.Data;
+using System.Xml.Linq;
 
 namespace MiniProject
 {
@@ -16,138 +17,89 @@ namespace MiniProject
         }
 
         //Create persosn to database   
-        public static void CreatePerson()
+        public static void AddPerson(string name)
         {
-
-            Console.WriteLine("Enter your Name:");
-            string person_name = Console.ReadLine();
-
             //Get a connection to database
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                // Open DB connection
-                cnn.Open();
+                cnn.Execute($"INSERT INTO tz_person (person_name) VALUES ('{name}')", new DynamicParameters());
 
-                //SQL statement which will execute 
-                string sql = "INSERT INTO tz_person (person_name)" +
-                                        "VALUES (@person_name)";
-                cnn.Execute(sql, new { person_name });
-
-                Console.WriteLine("New person created successfully!");
-                //Close DB  connection
-                cnn.Close();
             }
         }
 
-        public static void CreateProject()
+        public static void AddProject(string name)
         {
-
-            Console.WriteLine("Enter your project name:");
-            string project_name = Console.ReadLine();
-
 
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                cnn.Open();
+                cnn.Execute($"INSERT INTO tz_project (project_name) VALUES ('{name}')", new DynamicParameters());
 
-                string sql = "INSERT INTO tz_project (project_name)" +
-                                        "VALUES (@project_name)";
-                cnn.Execute(sql, new { project_name });
-
-                Console.WriteLine("New project created successfully!");
-
-                cnn.Close();
             }
         }
 
 
-        public static void TimeReport()
+        public static void AddTimeReport(int project_id, int person_id, int hours)
         {
 
-            Console.WriteLine("Enter your project id:");
-            int project_id = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Enter your id number:");
-            int person_id = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("How many hours did you work on the project:");
-            int hours = Convert.ToInt32(Console.ReadLine());
-
+            
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                cnn.Open();
+                cnn.Execute($"INSERT INTO tz_project_person (project_id,person_id,hours) VALUES ('{project_id}','{person_id}','{hours}' )", new DynamicParameters());
 
-                string sql = "INSERT INTO tz_project_person (project_id,person_id,hours)" +
-                                        "VALUES (@project_id,@person_id,@hours)";
-                cnn.Execute(sql, new { project_id, person_id, hours });
-
-                Console.WriteLine("Time duration has reported successfully!");
-
-                cnn.Close();
             }
         }
 
-        public static void editPerson()
-        {
-            //User input
-            Console.WriteLine("Enter your id");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter your name you want to edit");
-            string person_name = Console.ReadLine();
 
+        public static PersoneModel GetPerson(string name)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+
+             var result  =  cnn.Query<PersoneModel>($"SELECT * FROM tz_person WHERE person_name='{name}'", new DynamicParameters());
+             return result.FirstOrDefault();
+
+            }
+           
+        }
+
+
+        public static void updatePerson(int id, string name)
+        {
+            
 
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                cnn.Open();
-
-
-                var query = "UPDATE tz_person SET person_name=@person_name Where id=@id";
-
-                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
-                {
-                    // Add parameterss to SQL statement
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@person_name", person_name);
-
-                    command.ExecuteNonQuery();
-                    Console.WriteLine("Person name updated!");
-                }
-
-                cnn.Close();
+                cnn.Execute($"UPDATE tz_person SET person_name='{name}' WHERE id = {id}", new DynamicParameters());
             }
         }
 
-        public static void editProject()
+
+        public static ProjectModel GetProject(string name)
         {
-
-            Console.WriteLine("Enter your id");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter your project name you want to edit");
-            string project_name = Console.ReadLine();
-
-
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                cnn.Open();
 
+                var result = cnn.Query<ProjectModel>($"SELECT * FROM tz_project WHERE project_name='{name}'", new DynamicParameters());
+                return result.FirstOrDefault();
 
-                var query = "UPDATE tz_project SET project_name=@project_name Where id=@id";
+            }
+        }
+        public static void updateProject(int id,string  name)
+        {
 
-                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
-                {
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@project_name", project_name);
+            
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
-                    command.ExecuteNonQuery();
-                    Console.WriteLine("Project name updated!");
-                }
-
-                cnn.Close();
+            {
+                
+                cnn.Execute($"UPDATE tz_project SET project_name='{name}' WHERE id = {id}", new DynamicParameters());
+                
             }
         }
 

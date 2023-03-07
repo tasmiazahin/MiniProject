@@ -19,24 +19,24 @@ class Program
         {
             case "1":
                 // Call CreatePerson method from PostgressDataAccess to create person in person table 
-                PostgressDataAccess.CreatePerson();
+                Service.CreatePerson();
                 break;
 
             case "2":
                 // Create project in project table 
-                PostgressDataAccess.CreateProject();
+                Service.CreateProject();
                 break;
 
             case "3":
-                PostgressDataAccess.TimeReport();
+                Service.TimeReport();
                 break;
 
             case "4":
-                PostgressDataAccess.editPerson();
+                Service.editPerson();
                 break;
 
             case "5":
-                PostgressDataAccess.editProject();
+                Service.editProject();
                 break;
 
             case "6":
