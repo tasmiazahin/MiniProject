@@ -52,7 +52,7 @@ namespace MiniProject
                 Console.WriteLine("Enter your project id:");
                 int project_id = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine("Enter your id number:");
+                Console.WriteLine("Enter your person id number:");
                 int person_id = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine("How many hours did you work on the project:");
@@ -136,38 +136,42 @@ namespace MiniProject
             }
         }
 
-        //public static void editTimeReport()
-        //{
+        public static void editTimeReport()
+        {
+            try
+            {
+                Console.WriteLine("Enter your project id");
+                int project_id = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter your person id number");
+                int person_id = Convert.ToInt32(Console.ReadLine());
 
-        //    Console.WriteLine("Enter your project id");
-        //    int project_id = Convert.ToInt32(Console.ReadLine());
-        //    Console.WriteLine("Enter your id number");
-        //    int person_id = Convert.ToInt32(Console.ReadLine());
-        //    Console.WriteLine("Update your hours:");
-        //    int hours = Convert.ToInt32(Console.ReadLine());
+                ProjectPersonModel CurrentTimeReport = PostgressDataAccess.GetTimeReport(person_id, project_id);
+                if (CurrentTimeReport !=null)
+                {
+                    Console.WriteLine("Update your hours:");
+                    int hours = Convert.ToInt32(Console.ReadLine());
 
+                    PostgressDataAccess.updateTimeReport(person_id, project_id, hours);
 
-        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-
-        //    {
-        //        cnn.Open();
-
-        //        var query = "UPDATE tz_project_person SET hours=@hours Where project_id=@project_id AND person_id=@person_id";
-
-        //        using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
-        //        {
-        //            command.Parameters.AddWithValue("@hours", hours);
-        //            command.Parameters.AddWithValue("@project_id", project_id);
-        //            command.Parameters.AddWithValue("@person_id", person_id);
+                    Console.WriteLine("Your time  report has updated!");
 
 
-        //            command.ExecuteNonQuery();
-        //            Console.WriteLine("Time report updated!");
-        //        }
+                }
+                else
+                {
+                    Console.WriteLine("Time report not found");
+                }
 
-        //        cnn.Close();
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Updating time report has failed\n{ex}");
+            }
+            
+
+            
+ 
+        }
 
     }
 }

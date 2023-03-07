@@ -40,7 +40,7 @@ class Program
                 break;
 
             case "6":
-                PostgressDataAccess.editTimeReport();
+                Service.editTimeReport();
                 break;
 
             default:

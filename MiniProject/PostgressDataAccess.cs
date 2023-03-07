@@ -103,37 +103,31 @@ namespace MiniProject
             }
         }
 
-        public static void editTimeReport()
+         
+
+        public static ProjectPersonModel GetTimeReport(int person_id, int project_id)
         {
-
-            Console.WriteLine("Enter your project id");
-            int project_id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter your id number");
-            int person_id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Update your hours:");
-            int hours = Convert.ToInt32(Console.ReadLine());
-
-
-         using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
 
             {
-                cnn.Open();
 
-                var query = "UPDATE tz_project_person SET hours=@hours Where project_id=@project_id AND person_id=@person_id";
+                var result = cnn.Query<ProjectPersonModel>($"SELECT * FROM tz_project_person WHERE person_id={person_id} AND project_id={project_id}", new DynamicParameters());
+                return result.FirstOrDefault();
 
-                using (var command = new NpgsqlCommand(query, (NpgsqlConnection?)cnn))
-                {
-                    command.Parameters.AddWithValue("@hours", hours);
-                    command.Parameters.AddWithValue("@project_id", project_id);
-                    command.Parameters.AddWithValue("@person_id", person_id);
-
-
-                    command.ExecuteNonQuery();
-                    Console.WriteLine("Time report updated!");
-                }
-
-                cnn.Close();
             }
+        }
+        public static void updateTimeReport(int person_id, int project_id , int hours)
+        {
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
+            {
+
+                cnn.Execute($"UPDATE tz_project_person SET hours='{hours}' WHERE  project_id = {project_id}  AND person_id={person_id}", new DynamicParameters());
+
+            }
+
+            
         }
     }
 }
