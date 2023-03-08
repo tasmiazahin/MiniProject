@@ -3,7 +3,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Welcome to the project! Please select one of the options below:");
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
+        Console.WriteLine("Welcome to the Tasmia's consultancy project! Please select one of the options below:");
+        Console.ResetColor();
         Console.WriteLine("1. Create Person");
         Console.WriteLine("2. Create Project");
         Console.WriteLine("3. Add time report on the project");

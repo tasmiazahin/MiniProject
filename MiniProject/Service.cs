@@ -15,8 +15,18 @@ namespace MiniProject
                 Console.WriteLine("Enter your Name:");
                 string person_name = Console.ReadLine();
 
-                PostgressDataAccess.AddPerson(person_name);
-                Console.WriteLine("New person created successfully!");
+               PersoneModel person = PostgressDataAccess.GetPerson(person_name);
+                if (person == null)
+                {
+                    PostgressDataAccess.AddPerson(person_name);
+                    Console.WriteLine("New person created successfully!");
+                }
+                else
+                {
+                    Console.WriteLine($"{person_name} is alredy exists. Try another name");
+                }
+
+                
             }
             catch (Exception ex)
             {
@@ -33,8 +43,18 @@ namespace MiniProject
                 Console.WriteLine("Enter your project name:");
                 string project_name = Console.ReadLine();
 
-                PostgressDataAccess.AddProject(project_name);
-                Console.WriteLine("New project created successfully!");
+                ProjectModel project = PostgressDataAccess.GetProject(project_name);
+                if (project == null)
+                {
+                    PostgressDataAccess.AddProject(project_name);
+                    Console.WriteLine("New project created successfully!");
+                }
+                else
+                {
+                    Console.WriteLine($"{project_name} is already exists. Try another name");
+                }
+
+               
 
             }
             catch (Exception ex)
@@ -109,9 +129,9 @@ namespace MiniProject
             {
 
                 Console.WriteLine("Enter your old project name");
-                string oldPrrojectName = Console.ReadLine();
+                string oldProjectName = Console.ReadLine();
 
-                ProjectModel current_project = PostgressDataAccess.GetProject(oldPrrojectName);
+                ProjectModel current_project = PostgressDataAccess.GetProject(oldProjectName);
 
                 if (current_project != null)
                 {
@@ -145,32 +165,19 @@ namespace MiniProject
                 Console.WriteLine("Enter your person id number");
                 int person_id = Convert.ToInt32(Console.ReadLine());
 
-                ProjectPersonModel CurrentTimeReport = PostgressDataAccess.GetTimeReport(person_id, project_id);
-                if (CurrentTimeReport !=null)
-                {
-                    Console.WriteLine("Update your hours:");
-                    int hours = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Update your hours:");
+                int hours = Convert.ToInt32(Console.ReadLine());
 
-                    PostgressDataAccess.updateTimeReport(person_id, project_id, hours);
+                PostgressDataAccess.updateTimeReport(hours, project_id, person_id);
 
-                    Console.WriteLine("Your time  report has updated!");
-
-
-                }
-                else
-                {
-                    Console.WriteLine("Time report not found");
-                }
+                Console.WriteLine("Your time  report has updated!");
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Updating time report has failed\n{ex}");
             }
-            
 
-            
- 
         }
 
     }
