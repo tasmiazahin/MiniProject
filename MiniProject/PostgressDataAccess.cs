@@ -117,6 +117,7 @@ namespace MiniProject
             }
         }
 
+     
         public static void updateTimeReport(int hours, int project_id, int person_id)
         {
 
@@ -124,7 +125,7 @@ namespace MiniProject
 
             {
 
-                cnn.Execute($"UPDATE tz_project_person SET hours= {hours} WHERE project_id = {project_id}  AND person_id={person_id}", new DynamicParameters());
+                cnn.Execute($"UPDATE tz_project_person SET hours= {hours} WHERE id= project_id = {project_id}  AND person_id={person_id}", new DynamicParameters());
 
             }
 
