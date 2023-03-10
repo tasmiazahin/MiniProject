@@ -10,13 +10,18 @@ class Program
 
         ConsoleKeyInfo key;
         int option = 1;
+
+        // Selection value of the menu
         bool isSelected = false;
+
+        // Get cursor position
         (int left, int top) = Console.GetCursorPosition();
         string color = "✅  \u001b[32m";
 
 
         Console.CursorVisible = false;
 
+       
         while (!isSelected)
         {
             Console.SetCursorPosition(left, top);
@@ -28,6 +33,7 @@ class Program
             Console.WriteLine($"{(option == 5 ? color : "    ")}Edit Project \u001b[0m");
             Console.WriteLine($"{(option == 6 ? color : "    ")}Edit time report \u001b[0m");
 
+            // read which key has pressed by the user
             key = Console.ReadKey(true);
 
 
@@ -48,33 +54,37 @@ class Program
             }
         }
 
-        Console.WriteLine($"\n{color}You selected the option {option}");
+        Console.WriteLine($"\n{color}You selected the option {option}\n");
 
         switch (option)
         {
             case 1:
-                // Call CreatePerson method from PostgressDataAccess to create person in person table 
+                // Call CreatePerson method from service class to create person in tz_person table 
                 Service.CreatePerson();
                 break;
 
             case 2:
-                // Create project in project table 
+                // Create project in tz_project table 
                 Service.CreateProject();
                 break;
 
             case 3:
+                // Create time report  in tz_project_person table 
                 Service.TimeReport();
                 break;
 
             case 4:
+                // Call editPerson method from service class to update person in tz_person table 
                 Service.editPerson();
                 break;
 
             case 5:
+                // update project in tz_project table 
                 Service.editProject();
                 break;
 
             case 6:
+                // update time report  in tz_project_person table 
                 Service.editTimeReport();
                 break;
 

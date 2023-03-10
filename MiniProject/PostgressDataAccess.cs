@@ -16,7 +16,7 @@ namespace MiniProject
 
         }
 
-        //Create persosn to database   
+        //Create persosn to tz_person table   
         public static void AddPerson(string name)
         {
             //Get a connection to database
@@ -28,6 +28,8 @@ namespace MiniProject
             }
         }
 
+
+        // Create a project to to tz_project table 
         public static void AddProject(string name)
         {
 
@@ -40,6 +42,7 @@ namespace MiniProject
         }
 
 
+        // Add a time report to tz_project_person table
         public static void AddTimeReport(int project_id, int person_id, int hours)
         {
 
@@ -53,6 +56,7 @@ namespace MiniProject
         }
 
 
+        // Get person data from database
         public static PersoneModel GetPerson(string name)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -66,7 +70,7 @@ namespace MiniProject
            
         }
 
-
+        // Update person record
         public static void updatePerson(int id, string name)
         {
             
@@ -79,6 +83,7 @@ namespace MiniProject
         }
 
 
+        // Get project data from database
         public static ProjectModel GetProject(string name)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -90,6 +95,9 @@ namespace MiniProject
 
             }
         }
+
+
+        // Update project record 
         public static void updateProject(int id,string  name)
         {
 
@@ -104,7 +112,7 @@ namespace MiniProject
         }
 
          
-
+        // Get time report data from database
         public static ProjectPersonModel GetTimeReport(int person_id, int project_id)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -117,7 +125,7 @@ namespace MiniProject
             }
         }
 
-     
+        // Update time report record in tz_project_person table
         public static void updateTimeReport(int hours, int project_id, int person_id)
         {
 
@@ -125,10 +133,9 @@ namespace MiniProject
 
             {
 
-                cnn.Execute($"UPDATE tz_project_person SET hours= {hours} WHERE id= project_id = {project_id}  AND person_id={person_id}", new DynamicParameters());
+                cnn.Execute($"UPDATE tz_project_person SET hours= {hours} WHERE  project_id = {project_id}  AND person_id={person_id}", new DynamicParameters());
 
             }
-
 
 
         }
