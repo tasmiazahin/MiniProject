@@ -11,10 +11,14 @@
     <None Remove="Npgsql" />
     <None Remove="Dapper" />
     <None Remove="System.Configuration.ConfigurationManager" />
+    <None Remove="database\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="7.0.2" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="database\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace MiniProject;
+﻿using System.Drawing;
+
+namespace MiniProject;
 class Program
 {
     static void Main(string[] args)
